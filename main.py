@@ -2,6 +2,7 @@ import pygame
 from constants import WIDTH, HEIGHT
 from board import Board
 
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Halma game")
 FPS = 60
@@ -21,7 +22,7 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pass
-        board.draw_squares(screen)
+        board.draw(screen)
         pygame.display.update()
 
     pygame.quit()

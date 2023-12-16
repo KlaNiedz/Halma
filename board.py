@@ -1,5 +1,5 @@
 import pygame
-from constants import SQUARE_SIZE, ROWS, COLS, BROWN, WHITE, RED, GREEN
+from constants import SQUARE_SIZE, ROWS, COLS, BROWN, WHITE, RED, GREEN, GREY
 from piece import Piece
 
 
@@ -50,4 +50,18 @@ class Board:
                 piece = self.board[row][col]
                 if piece != 0:
                     piece.draw(screen)
+
+    def move(self, piece, row, col):
+        """
+        Swaping positions of piece and "0" in empty square
+        """
+        self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
+        piece.move(row, col)
+
+    def get_piece(self, row, col):
+        return self.board[row][col]
+    
+    
+
+
 

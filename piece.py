@@ -1,5 +1,5 @@
 import pygame
-from constants import RED, GREEN, SQUARE_SIZE
+from constants import GREY, RED, GREEN, SQUARE_SIZE
 
 
 class Piece:
@@ -12,6 +12,7 @@ class Piece:
         self.color = color
         self.x = 0
         self.y = 0
+        self.final_position = False
         self.calculate_pos()
 
     def calculate_pos(self):
@@ -23,7 +24,15 @@ class Piece:
 
     def draw(self, screen):
         radius = SQUARE_SIZE//2 - self.PADDING
-        pygame.draw.circle(screen, (128, 128, 128), (self.x, self.y), radius + self.OUTLINE)
+        pygame.draw.circle(screen, GREY, (self.x, self.y), radius + self.OUTLINE)
         pygame.draw.circle(screen, self.color, (self.x, self.y), radius)
 
+    def move(self, row, col):
+        self.row = row
+        self.col = col
+        self.calculate_pos()
     
+    def get_options_of_move(self, screen):
+        radius = SQUARE_SIZE//8 - self.PADDING
+        for element in range(3):
+            pygame.draw.circle(screen, GREY, (self.x, self.y), radius)

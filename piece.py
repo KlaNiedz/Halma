@@ -32,7 +32,5 @@ class Piece:
         self.col = col
         self.calculate_pos()
     
-    def get_options_of_move(self, screen):
-        radius = SQUARE_SIZE//8 - self.PADDING
-        for element in range(3):
-            pygame.draw.circle(screen, GREY, (self.x, self.y), radius)
+    def __repr__(self):
+        return str(self.color)

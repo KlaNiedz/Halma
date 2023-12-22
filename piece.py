@@ -1,5 +1,5 @@
 import pygame
-from constants import GREY, RED, GREEN, SQUARE_SIZE
+from constants import GREY, SQUARE_SIZE
 
 
 class Piece:
@@ -31,6 +31,6 @@ class Piece:
         self.row = row
         self.col = col
         self.calculate_pos()
-    
+
     def __repr__(self):
         return str(self.color)

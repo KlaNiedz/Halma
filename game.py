@@ -11,6 +11,9 @@ class Game:
         self.turn = RED
         self.options_of_moves = {}
 
+    def winner(self):
+        return self.board.check_winner()
+
     def update(self):
         self.board.draw(self.screen)
         self.draw_valid_moves(self.options_of_moves)

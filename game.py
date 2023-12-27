@@ -41,9 +41,8 @@ class Game:
             self.selected = piece
             self.options_of_moves = self.board.get_options_of_move(piece)
             return True
-        
-        return False
 
+        return False
 
     def _move(self, row, col):
         piece = self.board.get_piece(row, col)
@@ -53,7 +52,7 @@ class Game:
         else:
             return False
         return True
-    
+
     def draw_valid_moves(self, moves):
         for move in moves:
             row, col = move

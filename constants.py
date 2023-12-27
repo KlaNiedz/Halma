@@ -1,6 +1,8 @@
 WIDTH, HEIGHT = 800, 800
-ROWS, COLS = 16, 16
+ROWS, COLS = 6, 6
 SQUARE_SIZE = WIDTH//COLS
+# 3 possible amount of pieces: 6, 13, 19
+PIECES = 6
 
 BROWN = (188, 170, 164)
 WHITE = (255, 255, 255)

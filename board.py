@@ -1,12 +1,13 @@
+
 import pygame
-from constants import SQUARE_SIZE, ROWS, COLS, BROWN, WHITE, RED, GREEN
+from constants import PIECES, SQUARE_SIZE, ROWS, COLS, BROWN, WHITE, RED, GREEN
 from piece import Piece
 
 
 class Board:
     def __init__(self):
         self.board = []
-        self.red_left = self.green_left = 19
+        self.red_left = self.green_left = PIECES
         self.winner_red = 0
         self.winner_green = 0
         self.create_board()
@@ -18,65 +19,147 @@ class Board:
         screen.fill(WHITE)
         for row in range(ROWS):
             for col in range(row % 2, COLS, 2):
-                # x = col * SQUARE_SIZE
-                # y = row * SQUARE_SIZE
-                pygame.draw.rect(
-                                screen,
-                                BROWN,
-                                (row*SQUARE_SIZE,
-                                    col*SQUARE_SIZE,
-                                    SQUARE_SIZE,
-                                    SQUARE_SIZE)
-                            )
+                sq = SQUARE_SIZE
+                x = col * SQUARE_SIZE
+                y = row * SQUARE_SIZE
+                pygame.draw.rect(screen, BROWN, (x, y, sq, sq))
+
+#     def add_pieces_around(self, row, col):
+#         if not isinstance(self.board[row][col-1], Piece):
+#             self.board[row][col-1] = Piece(row, col-1, GREEN)
+#             self.green_left -= 1
+#         elif not isinstance(self.board[row+1][col], Piece):
+#             self.board[row+1][col] = Piece(row, col, GREEN)
+#             self.green_left -= 1
+#         else:
+#             pass
+
+#     # def add_pieces_around(self, row, col, step):
+#     #     for i in range(step):
+#     #         self.board[row + i][col - 1] = Piece(row + i, col - 1, GREEN)
+#     #         self.green_left -= 1
+
+#     def create_board(self):
+#         """
+#         create self.board which consists lists of rows,
+#         inside of each list of rows, there're pieces or empty square (0)
+#         """
+#         # for row in range(ROWS):
+#         #     self.board.append([0] * COLS)  # Utworzenie wiersza z COLS elementami o wartości 0
+#         # print(self.board)
+
+
+#         self.board = [[0] * COLS for _ in range(ROWS)]
+
+# # Dodanie pionków do planszy
+#         self.board[0][COLS-1] = Piece(0, COLS-1, GREEN)
+#         self.green_left -= 1
+
+#         # Dodanie kolejnych 5 pionków wokół pierwszego pionka
+#         for i in range(1, 6):
+#             self.add_pieces_around(0, COLS-1, i)
+#         print(self.board)
+
+
+
+
+
 
     def create_board(self):
         """
         create self.board which consists lists of rows,
         inside of each of list of rows there're pieces or empty square (0)
         """
+        constant = PIECES // 4
         for row in range(ROWS):
             self.board.append([])
             for col in range(COLS):
-                if row < 5 and col > 10:
-                    if row == 0:
-                        self.board[row].append(Piece(row, col, GREEN))
-                    elif col >= 10 + row:
-                        self.board[row].append(Piece(row, col, GREEN))
+
+                if PIECES == 6:
+                    max_piec_in_row = PIECES//2
+                    if col >= COLS - max_piec_in_row and row < max_piec_in_row:
+                        if col >= COLS - max_piec_in_row + row:
+                            self.board[row].append(Piece(row, col, GREEN))
+                        else:
+                            self.board[row].append(0)
+                    elif row >= ROWS-max_piec_in_row and col < max_piec_in_row:
+                        if row >= ROWS - max_piec_in_row + col:
+                            self.board[row].append(Piece(row, col, RED))
+                        else:
+                            self.board[row].append(0)
                     else:
                         self.board[row].append(0)
-                elif col < 5 and row > 10:
-                    if col == 0:
-                        self.board[row].append(Piece(row, col, RED))
-                    elif row >= 10 + col:
-                        self.board[row].append(Piece(row, col, RED))
+
+                elif PIECES == 13 or PIECES == 19:
+                    if col >= COLS - constant - 1:
+                        if row <= PIECES // 4:
+                            if row == 0:
+                                self.board[row].append(Piece(row, col, GREEN))
+                            elif col >= COLS - 2 - constant + row:
+                                self.board[row].append(Piece(row, col, GREEN))
+                            else:
+                                self.board[row].append(0)
+                        else:
+                            self.board[row].append(0)
+                    elif row >= ROWS - constant - 1:
+                        if col <= constant:
+                            if col == 0:
+                                self.board[row].append(Piece(row, col, RED))
+                            elif row >= ROWS - 2 - constant + col:
+                                self.board[row].append(Piece(row, col, RED))
+                            else:
+                                self.board[row].append(0)
+                        else:
+                            self.board[row].append(0)
                     else:
                         self.board[row].append(0)
                 else:
-                    self.board[row].append(0)
+                    raise ValueError("Number of pieces can be 6, 13 or 19")
+
+        print(self.board)
+
+
 
     def check_winner(self):
+        constant = PIECES // 4
         for row in range(ROWS):
             for col in range(COLS):
-                if row < 5 and col > 10:
-                    if row == 0:
-                        if self.board[row] == (Piece(row, col, RED)):
-                            self.winner_red += 1
-                    elif col >= 10 + row:
-                        if self.board[row] == (Piece(row, col, RED)):
-                            self.winner_red += 1
-                elif col < 5 and row > 10:
-                    if col == 0:
-                        if self.board[row] == (Piece(row, col, GREEN)):
-                            self.winner_green += 1
-                    elif row >= 10 + col:
-                        if self.board[row] == (Piece(row, col, GREEN)):
-                            self.winner_green += 1
+                if PIECES == 6:
+                    max_piec_in_row = PIECES//2
+                    if col >= max_piec_in_row and row < max_piec_in_row:
+                        if col >= COLS - max_piec_in_row + row:
+                            if self.board[row] == (Piece(row, col, RED)):
+                                self.red_left -= 1
+                    elif row >= max_piec_in_row and col < max_piec_in_row:
+                        if row >= ROWS - max_piec_in_row + col:
+                            if self.board[row] == (Piece(row, col, GREEN)):
+                                self.green_left -= 1
+
+                elif PIECES == 13 or PIECES == 19:
+                    if col >= COLS - constant - 1:
+                        if row <= PIECES // 4:
+                            if row == 0:
+                                self.board[row] == (Piece(row, col, RED))
+                                self.red_left -= 1
+                            elif col >= COLS - 2 - constant + row:
+                                if self.board[row] == (Piece(row, col, RED)):
+                                    self.red_left -= 1
+
+                    elif row >= ROWS - constant - 1:
+                        if col <= constant:
+                            if col == 0:
+                                if self.board[row] == (Piece(row, col, GREEN)):
+                                    self.green_left -= 1
+                            elif row >= ROWS - 2 - constant + col:
+                                if self.board[row] == (Piece(row, col, GREEN)):
+                                    self.green_left -= 1
+
         if self.winner_green == self.green_left:
             return GREEN
         elif self.winner_red == self.red_left:
             return RED
 
-        return None
+    #     return None
 
     def draw(self, screen):
         self.draw_squares(screen)
@@ -124,6 +207,7 @@ class Board:
         moves.update(self._traverse_right(row+1, min(row+3, ROWS), 1, piece.color, right))
 
         # go up
+        # wczesenije bylo max(row-3, -1)
         moves.update(self._up(row-1, max(row-3, -1), -1, piece.color, col))
 
         # go down
@@ -219,12 +303,10 @@ class Board:
                     else:
                         row = min(r+3, ROWS)
 
-                    moves.update(self._traverse_left(r+step, row, step, color, up-1, skipped=last))
-                    moves.update(self._traverse_right(r+step, row, step, color, up+1, skipped=last))
+                    moves.update(self._up(r+step, row, step, color, up, skipped=last))
                 break
             else:
                 last = [current]
-            up -= 1
         return moves
 
     def _down(self, start, stop, step, color, down, skipped=[]):
@@ -248,12 +330,11 @@ class Board:
                     else:
                         row = min(r+3, ROWS)
 
-                    moves.update(self._traverse_left(r+step, row, step, color, down-1, skipped=last))
-                    moves.update(self._traverse_right(r+step, row, step, color, down+1, skipped=last))
+                    moves.update(self._down(r+step, row, step, color, down, skipped=last))
+
                 break
             else:
                 last = [current]
-            down += 1
         return moves
 
     def _right(self, start, stop, step, color, right_row, skipped=[]):
@@ -277,8 +358,8 @@ class Board:
                     else:
                         row = min(c+3, ROWS)
 
-                    moves.update(self._traverse_left(c+step, row, step, color, right_row-1, skipped=last))
-                    moves.update(self._traverse_right(c+step, row, step, color, right_row+1, skipped=last))
+                    # moves.update(self._left(c+step, row, step, color, right_row, skipped=last))
+                    moves.update(self._right(c+step, row, step, color, right_row, skipped=last))
                 break
             else:
                 last = [current]
@@ -298,18 +379,21 @@ class Board:
                     break
                 elif skipped:
                     moves[(left_row, c)] = last + skipped
+                    # print(moves)
                 else:
                     moves[(left_row, c)] = last
+                    # print(f"{moves} 3")
                 if last:
                     if step == -1:
                         row = max(c-3, 0)
                     else:
                         row = min(c+3, ROWS)
+                    # print(f"{moves} 2")
 
-                    moves.update(self._traverse_left(c+step, row, step, color, left_row-1, skipped=last))
-                    moves.update(self._traverse_right(c+step, row, step, color, left_row+1, skipped=last))
+                    moves.update(self._left(c+step, row, step, color, left_row, skipped=last))
+                    # moves.update(self._right(c+step, row, step, color, left_row, skipped=last))
                 break
             else:
                 last = [current]
-
+        print(moves)
         return moves

@@ -2,10 +2,11 @@ import pygame
 from constants import SQUARE_SIZE, WIDTH, HEIGHT
 from game import Game
 
+pygame.init()
 
+FPS = 60
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Halma game")
-FPS = 60
 
 
 def get_pos_from_mouse(pos):
@@ -44,4 +45,5 @@ def main():
     pygame.quit()
 
 
-main()
+if __name__ == "__main__":
+    main()

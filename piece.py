@@ -32,5 +32,5 @@ class Piece:
         self.col = col
         self.calculate_pos()
 
-    # def __repr__(self):
-    #     return str("piece")
+    def __repr__(self):
+        return str(self.color)

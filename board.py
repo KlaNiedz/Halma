@@ -1,4 +1,3 @@
-
 import pygame
 from constants import PIECES, SQUARE_SIZE, ROWS, COLS, BROWN, WHITE, RED, GREEN
 from piece import Piece
@@ -23,47 +22,6 @@ class Board:
                 x = col * SQUARE_SIZE
                 y = row * SQUARE_SIZE
                 pygame.draw.rect(screen, BROWN, (x, y, sq, sq))
-
-#     def add_pieces_around(self, row, col):
-#         if not isinstance(self.board[row][col-1], Piece):
-#             self.board[row][col-1] = Piece(row, col-1, GREEN)
-#             self.green_left -= 1
-#         elif not isinstance(self.board[row+1][col], Piece):
-#             self.board[row+1][col] = Piece(row, col, GREEN)
-#             self.green_left -= 1
-#         else:
-#             pass
-
-#     # def add_pieces_around(self, row, col, step):
-#     #     for i in range(step):
-#     #         self.board[row + i][col - 1] = Piece(row + i, col - 1, GREEN)
-#     #         self.green_left -= 1
-
-#     def create_board(self):
-#         """
-#         create self.board which consists lists of rows,
-#         inside of each list of rows, there're pieces or empty square (0)
-#         """
-#         # for row in range(ROWS):
-#         #     self.board.append([0] * COLS)  # Utworzenie wiersza z COLS elementami o wartości 0
-#         # print(self.board)
-
-
-#         self.board = [[0] * COLS for _ in range(ROWS)]
-
-# # Dodanie pionków do planszy
-#         self.board[0][COLS-1] = Piece(0, COLS-1, GREEN)
-#         self.green_left -= 1
-
-#         # Dodanie kolejnych 5 pionków wokół pierwszego pionka
-#         for i in range(1, 6):
-#             self.add_pieces_around(0, COLS-1, i)
-#         print(self.board)
-
-
-
-
-
 
     def create_board(self):
         """
@@ -116,50 +74,74 @@ class Board:
                 else:
                     raise ValueError("Number of pieces can be 6, 13 or 19")
 
-        print(self.board)
+    def evaluate(self):
+        return self.winner_green - self.winner_red
 
+    def get_all_pieces(self, color):
+        """
+        get possible moves for all of the pieces of particular color
+        """
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece != 0 and piece.color == color:
+                    pieces.append(piece)
+        return pieces
 
 
     def check_winner(self):
         constant = PIECES // 4
+        green_winners = set()  # Use a set to store unique green winners
+        red_winners = set()  # Use a set to store unique red winners
+
         for row in range(ROWS):
             for col in range(COLS):
                 if PIECES == 6:
                     max_piec_in_row = PIECES//2
                     if col >= max_piec_in_row and row < max_piec_in_row:
                         if col >= COLS - max_piec_in_row + row:
-                            if self.board[row] == (Piece(row, col, RED)):
-                                self.red_left -= 1
+                            current_piece = self.board[row][col]
+                            if isinstance(current_piece, Piece) and current_piece.color == RED:
+                                red_winners.add(current_piece)
                     elif row >= max_piec_in_row and col < max_piec_in_row:
                         if row >= ROWS - max_piec_in_row + col:
-                            if self.board[row] == (Piece(row, col, GREEN)):
-                                self.green_left -= 1
+                            current_piece = self.board[row][col]
+                            if isinstance(current_piece, Piece) and current_piece.color == GREEN:
+                                green_winners.add(current_piece)
 
                 elif PIECES == 13 or PIECES == 19:
                     if col >= COLS - constant - 1:
                         if row <= PIECES // 4:
                             if row == 0:
-                                self.board[row] == (Piece(row, col, RED))
-                                self.red_left -= 1
+                                current_piece = self.board[row][col]
+                                if isinstance(current_piece, Piece) and current_piece.color == RED:
+                                    red_winners.add(current_piece)
                             elif col >= COLS - 2 - constant + row:
-                                if self.board[row] == (Piece(row, col, RED)):
-                                    self.red_left -= 1
+                                current_piece = self.board[row][col]
+                                if isinstance(current_piece, Piece) and current_piece.color == RED:
+                                    red_winners.add(current_piece)
 
                     elif row >= ROWS - constant - 1:
                         if col <= constant:
                             if col == 0:
-                                if self.board[row] == (Piece(row, col, GREEN)):
-                                    self.green_left -= 1
+                                current_piece = self.board[row][col]
+                                if isinstance(current_piece, Piece) and current_piece.color == GREEN:
+                                    green_winners.add(current_piece)
+
                             elif row >= ROWS - 2 - constant + col:
-                                if self.board[row] == (Piece(row, col, GREEN)):
-                                    self.green_left -= 1
+                                current_piece = self.board[row][col]
+                                if isinstance(current_piece, Piece) and current_piece.color == GREEN:
+                                    green_winners.add(current_piece)
 
-        if self.winner_green == self.green_left:
-            return GREEN
-        elif self.winner_red == self.red_left:
-            return RED
+        self.winner_green = len(green_winners)  # Count unique green winners
+        self.winner_red = len(red_winners)  # Count unique red winners
 
-    #     return None
+        if self.winner_green == PIECES:
+            return "GREEN WON"
+        elif self.winner_red == PIECES:
+            return "RED WON"
+
+        return None
 
     def draw(self, screen):
         self.draw_squares(screen)
@@ -172,6 +154,7 @@ class Board:
     # def remove(self, pieces):
     #     for piece in pieces:
     #         self.board[piece.row][piece.col] = 0
+
 
     def move(self, piece, row, col):
         """

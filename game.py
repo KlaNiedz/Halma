@@ -65,4 +65,8 @@ class Game:
         else:
             self.turn = RED
 
+    def get_board(self):
+        return self.board
+
+  
 

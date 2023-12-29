@@ -1,5 +1,6 @@
 import pygame
-from constants import MODE, PIECES, SQUARE_SIZE, ROWS, COLS, BROWN, WHITE, RED, GREEN
+from constants import MODE, PIECES, SQUARE_SIZE, ROWS, COLS
+from constants import BROWN, WHITE, RED, GREEN
 from piece import Piece
 
 
@@ -251,7 +252,6 @@ class Board:
                 piece = self.board[row][col]
                 if piece != 0:
                     piece.draw(screen)
-
 
     def move(self, piece, row, col):
         """

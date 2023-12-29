@@ -1,5 +1,5 @@
 from copy import deepcopy
-import pygame
+# import pygame
 from constants import RED, GREEN
 
 

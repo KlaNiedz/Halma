@@ -30,8 +30,9 @@ In order to improve testing I added option of play with 6 pieces per player. Thi
 
 
 ## Instruction manual
-In order to choose game mode, number of pieces, colors and size of the board, go to constants.py change values of the parametrs. Attention! The number of pieces can only be 6, 13 or 19. However in case of other parameters you can choose any.
-
+In order to choose game mode, number of pieces, colors and size of the board, go to constants.py change values of the parametrs. Attention! The number of pieces can only be 6, 13 or 19. In case of other parameters you can choose size of board between 6 and 16 while playing with 6 pieces and size board between 8 and 16 while playing with 13 or 19 pieces.
+However, if you are playing with 6 pieces, I recommend choosing a board with a maximum of 10 by 10.
+Also, as rules of the game says, while playing with 19 pieces it is better to choose board 16x16.
 
 ## Construction
 
@@ -65,22 +66,11 @@ Game - handles game logic
 [An example of a game player vs player](https://youtu.be/hypF6F5U-0w)
 
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-
 ## Author
 Klaudia Niedziałkowska
 
 
 ## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Game mode 'COMPUTERvsCOMPUTER' doesn't work good.
 
 Line 263 can't be shortened

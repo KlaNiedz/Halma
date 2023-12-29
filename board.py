@@ -260,9 +260,7 @@ class Board:
         Moving single piece
         Swaping positions of piece and "0" in empty square
         """
-        piece1 = self.board[piece.row][piece.col]
-        empty_square = self.board[row][col]
-        piece1, empty_square = empty_square, piece1
+        self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
         piece.move(row, col)
 
     def get_piece(self, row, col):

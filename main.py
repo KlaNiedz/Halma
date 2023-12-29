@@ -27,7 +27,6 @@ def main():
 
     if ROWS != COLS or WIDTH != HEIGHT:
         raise ValueError("The board must be square.")
-
     game_is_on = True
     clock = pygame.time.Clock()
     game = Game(screen)

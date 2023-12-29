@@ -79,6 +79,8 @@ class Board:
         """
         Maxmaizing player: GREEN,
         Minimizing player: RED
+        The higher result of the function the better move for the green,
+        the smaller result of the function the better move for the red
         """
         green_score = self.calculate_score(GREEN)
         red_score = self.calculate_score(RED)

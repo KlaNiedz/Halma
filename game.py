@@ -9,6 +9,7 @@ class Game:
         self.selected = None
         self.board = Board()
         self.turn = RED
+        self.count_turns = 0
         self.options_of_moves = {}
 
     def winner(self):
@@ -45,6 +46,9 @@ class Game:
         return False
 
     def _move(self, row, col):
+        """
+        piece can only move to square which has no pieces
+        """
         piece = self.board.get_piece(row, col)
         if self.selected and piece == 0 and (row, col) in self.options_of_moves:
             self.board.move(self.selected, row, col)
@@ -60,6 +64,7 @@ class Game:
 
     def change_turn(self):
         self.options_of_moves = []
+        self.count_turns += 1
         if self.turn == RED:
             self.turn = GREEN
         else:
@@ -68,5 +73,7 @@ class Game:
     def get_board(self):
         return self.board
 
-  
+    def ai_move(self, board):
+        self.board = board
+        self.change_turn()
 

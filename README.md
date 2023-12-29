@@ -2,24 +2,6 @@
 
 
 
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab-stud.elka.pw.edu.pl/kniedzia/halmagame.git
-git branch -M main
-git push -uf origin main
-```
-
 ## Integrate with your tools
 
 - [ ] [Set up project integrations](https://gitlab-stud.elka.pw.edu.pl/kniedzia/halmagame/-/settings/integrations)
@@ -32,40 +14,56 @@ git push -uf origin main
 - [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
 - [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
 
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
 ## Name
-Choose a self-explaining name for your project.
+Halma Game
+
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+This project enable to play Halma game with another user, computer or watch play computer vs computer.
+Rules of Halma:
+PL - https://bonaludo.com/2018/08/06/halma-piekno-tkwi-w-prostocie/
+ENG - https://bonaludo.com/2018/08/17/halma-the-beauty-of-simplicity/
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+I decided to consider 3 options of number of pieces and every imgaginable size of board. User can change detalis in constants.py. Every parameter is listed and change there will influence whole project without breaking it.
+In order to improve testing I added option of play with 6 pieces per player. This is not accroding to Halma rules, but it significantly decrease gameplay time.
+
+
+## Instruction manual
+In order to choose game mode, number of pieces, colors and size of the board, go to constants.py change values of the parametrs. Attention! The number of pieces can only be 6, 13 or 19. However in case of other parameters you can choose any.
+
+
+## Construction
+
+Game is based on pygame library to better visualise board and moves of pieces.
+Project consists of main.py, board.py, game.py, piece.py, test_board.py, test_piece.py, algorithm.py and constants.py.
+I decided to divide project into such files as it is more readable.
+
+Files:
+main.py - contains most of the pygame visualization and check different events such mouse press on window, it also initialize minimax algorithm depending on game mode
+
+board.py - the most developed file - consists of creating board from drawing it to placement of pieces, it checks winner, implements moves of pieces to every direction and add evaluation used in algorithm of computer - it is so developed as most of the game logic is based on "self.board" which is description of every square of the board
+
+piece.py - contains mechanism of creating single piece
+
+constants.py - it is a separate file, beacause it enables changing basic parameters at the pleasure of user (such as mode of the game, size of the board, colors of pieces and board)
+
+game.py - contains basic functions, which are necessary to proper swaping turns
+
+algorithm.py - contains minimax algorithm, which is a module implementing the computer game algorithm
+
+
+Classes:
+Board - while initializing there is created board which is two-dimensional list which "first demenstion" are rows and "second demension" are columns. It also consists the number of pieces and how many pieces are in the winning zone.
+
+Piece - enable ti create single piece with parameteres such as color, position (x, y) and placement on board (row, column)
+
+Game - handles game logic
+
 
 ## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+[An example of a game player vs player](https://youtu.be/hypF6F5U-0w)
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
 ## Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
@@ -73,21 +71,14 @@ Use examples liberally, and show the expected output if you can. It's helpful to
 ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
+
 ## Roadmap
 If you have ideas for releases in the future, it is a good idea to list them in the README.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+## Author
+Klaudia Niedziałkowska
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.

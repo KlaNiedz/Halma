@@ -1,5 +1,5 @@
 import pygame
-from constants import PIECES, SQUARE_SIZE, ROWS, COLS, BROWN, WHITE, RED, GREEN
+from constants import MODE, PIECES, SQUARE_SIZE, ROWS, COLS, BROWN, WHITE, RED, GREEN
 from piece import Piece
 
 
@@ -74,8 +74,95 @@ class Board:
                 else:
                     raise ValueError("Number of pieces can be 6, 13 or 19")
 
-    def evaluate(self):
-        return self.winner_green - self.winner_red
+    def evaluate(self, current_turn):
+        """
+        Maxmaizing player: GREEN,
+        Minimizing player: RED
+        """
+        green_score = self.calculate_score(GREEN)
+        red_score = self.calculate_score(RED)
+        score = red_score - green_score
+        green_turn = self.winner_green - self.winner_red
+        red_turn = -(self.winner_green - self.winner_red)
+        if MODE == 'COMPvsCOMP':
+            if current_turn == GREEN:
+                print(green_turn + score)
+                return green_turn + score
+            else:
+                print(red_turn - score)
+                return red_turn - score
+
+        elif MODE == 'COMPvsPLAYER':
+            # print(green_turn + score)
+            return green_turn + score
+
+    def get_destination_zone(self):
+        """
+        Creates list of positions
+        where player's pieces should be to win
+        """
+        constant = PIECES // 4
+        green_des_pos = []
+        red_des_pos = []
+
+        for row in range(ROWS):
+            for col in range(COLS):
+                if PIECES == 6:
+                    max_p_in_row = PIECES//2
+                    if col >= COLS - max_p_in_row and row < max_p_in_row:
+                        if col >= COLS - max_p_in_row + row:
+                            red_des_pos.append((row, col))
+                    elif row >= ROWS - max_p_in_row and col < max_p_in_row:
+                        if row >= ROWS - max_p_in_row + col:
+                            green_des_pos.append((row, col))
+
+                elif PIECES == 13 or PIECES == 19:
+                    if col >= COLS - constant - 1:
+                        if row <= PIECES // 4:
+                            if row == 0:
+                                red_des_pos.append((row, col))
+                            elif col >= COLS - 2 - constant + row:
+                                red_des_pos.append((row, col))
+
+                    elif row >= ROWS - constant - 1:
+                        if col <= constant:
+                            if col == 0:
+                                green_des_pos.append((row, col))
+
+                            elif row >= ROWS - 2 - constant + col:
+                                green_des_pos.append((row, col))
+
+        print(f"{green_des_pos} tattadad")
+        return green_des_pos, red_des_pos
+
+    def calculate_distance(self, piece, destination_zone):
+        """
+        calculate distance from every piece to every winning square
+        """
+        min_distance = float('inf')
+
+        for dest_row, dest_col in destination_zone:
+            distance = abs(piece.row - dest_row) + abs(piece.col - dest_col)
+            min_distance = min(min_distance, distance)
+            print(min_distance)
+
+        return min_distance
+
+    def calculate_score(self, color):
+        """
+        calculate sum of distances to every winning square
+        """
+        total_distance = 0
+        green_des_pos, red_des_pos = self.get_destination_zone()
+
+        if color == GREEN:
+            for piece in self.get_all_pieces(color):
+                total_distance += self.calculate_distance(piece, green_des_pos)
+        elif color == RED:
+            for piece in self.get_all_pieces(color):
+                total_distance += self.calculate_distance(piece, red_des_pos)
+
+        return total_distance
 
     def get_all_pieces(self, color):
         """
@@ -88,8 +175,10 @@ class Board:
                     pieces.append(piece)
         return pieces
 
-
     def check_winner(self):
+        """
+        Counts how much pieces of every color are at winning squares
+        """
         constant = PIECES // 4
         green_winners = set()  # Use a set to store unique green winners
         red_winners = set()  # Use a set to store unique red winners
@@ -101,37 +190,46 @@ class Board:
                     if col >= max_piec_in_row and row < max_piec_in_row:
                         if col >= COLS - max_piec_in_row + row:
                             current_piece = self.board[row][col]
-                            if isinstance(current_piece, Piece) and current_piece.color == RED:
-                                red_winners.add(current_piece)
+
+                            if isinstance(current_piece, Piece):
+                                if current_piece.color == RED:
+                                    red_winners.add(current_piece)
+
                     elif row >= max_piec_in_row and col < max_piec_in_row:
                         if row >= ROWS - max_piec_in_row + col:
                             current_piece = self.board[row][col]
-                            if isinstance(current_piece, Piece) and current_piece.color == GREEN:
-                                green_winners.add(current_piece)
+
+                            if isinstance(current_piece, Piece):
+                                if current_piece.color == GREEN:
+                                    green_winners.add(current_piece)
 
                 elif PIECES == 13 or PIECES == 19:
                     if col >= COLS - constant - 1:
                         if row <= PIECES // 4:
                             if row == 0:
                                 current_piece = self.board[row][col]
-                                if isinstance(current_piece, Piece) and current_piece.color == RED:
-                                    red_winners.add(current_piece)
+                                if isinstance(current_piece, Piece):
+                                    if current_piece.color == RED:
+                                        red_winners.add(current_piece)
                             elif col >= COLS - 2 - constant + row:
                                 current_piece = self.board[row][col]
-                                if isinstance(current_piece, Piece) and current_piece.color == RED:
-                                    red_winners.add(current_piece)
+                                if isinstance(current_piece, Piece):
+                                    if current_piece.color == RED:
+                                        red_winners.add(current_piece)
 
                     elif row >= ROWS - constant - 1:
                         if col <= constant:
                             if col == 0:
                                 current_piece = self.board[row][col]
-                                if isinstance(current_piece, Piece) and current_piece.color == GREEN:
-                                    green_winners.add(current_piece)
+                                if isinstance(current_piece, Piece):
+                                    if current_piece.color == GREEN:
+                                        green_winners.add(current_piece)
 
                             elif row >= ROWS - 2 - constant + col:
                                 current_piece = self.board[row][col]
-                                if isinstance(current_piece, Piece) and current_piece.color == GREEN:
-                                    green_winners.add(current_piece)
+                                if isinstance(current_piece, Piece):
+                                    if current_piece.color == GREEN:
+                                        green_winners.add(current_piece)
 
         self.winner_green = len(green_winners)  # Count unique green winners
         self.winner_red = len(red_winners)  # Count unique red winners
@@ -144,6 +242,9 @@ class Board:
         return None
 
     def draw(self, screen):
+        """
+        draw pieces on board
+        """
         self.draw_squares(screen)
         for row in range(ROWS):
             for col in range(COLS):
@@ -151,16 +252,15 @@ class Board:
                 if piece != 0:
                     piece.draw(screen)
 
-    # def remove(self, pieces):
-    #     for piece in pieces:
-    #         self.board[piece.row][piece.col] = 0
-
 
     def move(self, piece, row, col):
         """
+        Moving single piece
         Swaping positions of piece and "0" in empty square
         """
-        self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
+        piece1 = self.board[piece.row][piece.col]
+        empty_square = self.board[row][col]
+        piece1, empty_square = empty_square, piece1
         piece.move(row, col)
 
     def get_piece(self, row, col):
@@ -168,7 +268,7 @@ class Board:
 
     def get_options_of_move(self, piece):
         """
-        Start (min_jump) from row of the piece, stop (max_jump) for 2 rows
+        Start - min_jump from row of the piece, stop - max_jump for 2 rows
         """
         moves = {}
         left = piece.col - 1
@@ -341,7 +441,6 @@ class Board:
                     else:
                         row = min(c+3, ROWS)
 
-                    # moves.update(self._left(c+step, row, step, color, right_row, skipped=last))
                     moves.update(self._right(c+step, row, step, color, right_row, skipped=last))
                 break
             else:
@@ -362,21 +461,20 @@ class Board:
                     break
                 elif skipped:
                     moves[(left_row, c)] = last + skipped
-                    # print(moves)
+
                 else:
                     moves[(left_row, c)] = last
-                    # print(f"{moves} 3")
+
                 if last:
                     if step == -1:
                         row = max(c-3, 0)
                     else:
                         row = min(c+3, ROWS)
-                    # print(f"{moves} 2")
 
                     moves.update(self._left(c+step, row, step, color, left_row, skipped=last))
-                    # moves.update(self._right(c+step, row, step, color, left_row, skipped=last))
+
                 break
             else:
                 last = [current]
-        print(moves)
+
         return moves

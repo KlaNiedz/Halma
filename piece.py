@@ -12,7 +12,6 @@ class Piece:
         self.color = color
         self.x = 0
         self.y = 0
-        self.final_position = False
         self.calculate_pos()
 
     def calculate_pos(self):

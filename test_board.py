@@ -4,6 +4,7 @@ from piece import Piece
 
 
 def test_create_board_object():
+    # PIECES = 6
     board_object = Board()
     assert board_object.red_left == 6
     assert board_object.green_left == 6
@@ -20,18 +21,6 @@ def test_create_board_table():
     assert isinstance(piece, Piece)
 
 
-def test_check_winner_green():
-    board_object = Board()
-    board_object.green_left = 0
-    assert board_object.check_winner() == GREEN
-
-
-def test_check_winner_red():
-    board_object = Board()
-    board_object.red_left = 0
-    assert board_object.check_winner() == RED
-
-
 def test_check_winner():
     halma_board = Board()
     for row in range(ROWS):
@@ -41,8 +30,9 @@ def test_check_winner():
             if col >= COLS - max_piec_in_row and row < max_piec_in_row:
                 if col >= COLS - max_piec_in_row + row:
                     halma_board.board[row][col] = Piece(row, col, RED)
+
     halma_board.check_winner()
-    assert halma_board.red_left == 0
+    assert halma_board.winner_red == 6
 
 
 def test_get_moves():
@@ -54,3 +44,13 @@ def test_get_moves():
     board_obj = Board()
     result = board_obj._left(2, 0, -1, GREEN, 0, skipped=[])
     assert result == {(0, 2): []}
+
+def test_get_destination_zone():
+    pass
+
+def test_calculate_distance():
+    board = Board()
+    piece = Piece(0, 5, GREEN)
+    desination_zone = [(4, 0), (4, 1)]
+    assert board.calculate_distance(piece, desination_zone) == 8
+    

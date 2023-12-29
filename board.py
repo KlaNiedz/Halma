@@ -135,7 +135,6 @@ class Board:
                             elif row >= ROWS - 2 - constant + col:
                                 green_des_pos.append((row, col))
 
-        print(f"{green_des_pos} tattadad")
         return green_des_pos, red_des_pos
 
     def calculate_distance(self, piece, destination_zone):
@@ -147,7 +146,7 @@ class Board:
         for dest_row, dest_col in destination_zone:
             distance = abs(piece.row - dest_row) + abs(piece.col - dest_col)
             min_distance = min(min_distance, distance)
-            print(min_distance)
+            # print(min_distance)
 
         return min_distance
 
@@ -290,7 +289,6 @@ class Board:
         moves.update(self._traverse_right(row+1, min(row+3, ROWS), 1, piece.color, right))
 
         # go up
-        # wczesenije bylo max(row-3, -1)
         moves.update(self._up(row-1, max(row-3, -1), -1, piece.color, col))
 
         # go down
@@ -328,6 +326,8 @@ class Board:
 
                     moves.update(self._traverse_left(r+step, row, step, color, left-1, skipped=last))
                     moves.update(self._traverse_right(r+step, row, step, color, left+1, skipped=last))
+                    moves.update(self._traverse_left(r-step, row, -step, color, left-1, skipped=last))
+                    moves.update(self._traverse_right(r-step, row, -step, color, left+1, skipped=last))
 
                 break
             else:
@@ -359,6 +359,9 @@ class Board:
 
                     moves.update(self._traverse_left(r+step, row, step, color, right-1, skipped=last))
                     moves.update(self._traverse_right(r+step, row, step, color, right+1, skipped=last))
+                    moves.update(self._traverse_left(r-step, row, -step, color, right-1, skipped=last))
+                    moves.update(self._traverse_right(r-step, row, -step, color, right+1, skipped=last))
+
                 break
             else:
                 last = [current]
@@ -387,6 +390,7 @@ class Board:
                         row = min(r+3, ROWS)
 
                     moves.update(self._up(r+step, row, step, color, up, skipped=last))
+                    moves.update(self._down(r-step, row, -step, color, up, skipped=last))
                 break
             else:
                 last = [current]
@@ -414,6 +418,7 @@ class Board:
                         row = min(r+3, ROWS)
 
                     moves.update(self._down(r+step, row, step, color, down, skipped=last))
+                    moves.update(self._up(r-step, row, -step, color, down, skipped=last))
 
                 break
             else:
@@ -442,6 +447,7 @@ class Board:
                         row = min(c+3, ROWS)
 
                     moves.update(self._right(c+step, row, step, color, right_row, skipped=last))
+                    moves.update(self._left(c-step, row, -step, color, right_row, skipped=last))
                 break
             else:
                 last = [current]
@@ -472,6 +478,7 @@ class Board:
                         row = min(c+3, ROWS)
 
                     moves.update(self._left(c+step, row, step, color, left_row, skipped=last))
+                    moves.update(self._right(c-step, row, -step, color, left_row, skipped=last))
 
                 break
             else:

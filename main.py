@@ -27,6 +27,14 @@ def main():
 
     if ROWS != COLS or WIDTH != HEIGHT:
         raise ValueError("The board must be square.")
+
+    if ROWS < 8 and PIECES > 12:
+        raise ValueError("Too small board.")
+    if ROWS < 6 and PIECES == 6:
+        raise ValueError("Too small board")
+    if ROWS > 16:
+        raise ValueError("Too big board.")
+
     game_is_on = True
     clock = pygame.time.Clock()
     game = Game(screen)
@@ -36,16 +44,16 @@ def main():
 
         if MODE == 'COMPvsPLAYER':
             if game.turn == GREEN:
-                value, new_board = minimax(game.get_board(), 4, float('-inf'), float('inf'), GREEN, game)
+                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), GREEN, game)
                 game.ai_move(new_board)
 
         if MODE == "COMPvsCOMP":
             if game.turn == GREEN:
-                value, new_board = minimax(game.get_board(), 4, float('-inf'), float('inf'), GREEN, game)
+                value, new_board = minimax(game.get_board(), 2, float('-inf'), float('inf'), GREEN, game)
                 game.ai_move(new_board)
 
             elif game.turn == RED:
-                value, new_board = minimax(game.get_board(), 4, float('-inf'), float('inf'), RED, game)
+                value, new_board = minimax(game.get_board(), 2, float('-inf'), float('inf'), RED, game)
                 game.ai_move(new_board)
 
         if game.winner() is not None:

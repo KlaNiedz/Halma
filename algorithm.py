@@ -1,5 +1,5 @@
 from copy import deepcopy
-# import pygame
+import pygame
 from constants import RED, GREEN
 
 
@@ -67,7 +67,7 @@ def get_all_moves(board, color, game):
         valid_moves = board.get_options_of_move(piece)
         # (row, col): [pieces]
         for move, skip in valid_moves.items():
-            # draw_moves(game, board, piece)
+            draw_moves(game, board, piece)
             temp_board = deepcopy(board)
             temp_piece = temp_board.get_piece(piece.row, piece.col)
             new_board = simulate_move(temp_piece, move, temp_board, game)
@@ -75,13 +75,13 @@ def get_all_moves(board, color, game):
     return moves
 
 
-# def draw_moves(game, board, piece):
-#     valid_moves = board.get_options_of_move(piece)
-#     board.draw(game.screen)
-#     pygame.draw.circle(game.screen, (0, 255, 0), (piece.x, piece.y), 50, 5)
-#     game.draw_valid_moves(valid_moves.keys())
-#     pygame.display.update()
-#     pygame.time.delay(50)
+def draw_moves(game, board, piece):
+    valid_moves = board.get_options_of_move(piece)
+    board.draw(game.screen)
+    pygame.draw.circle(game.screen, (0, 255, 0), (piece.x, piece.y), 50, 5)
+    game.draw_valid_moves(valid_moves.keys())
+    pygame.display.update()
+    pygame.time.delay(50)
 
 
 

@@ -18,7 +18,7 @@ class Game:
     def update(self):
         self.board.draw(self.screen)
         self.draw_valid_moves(self.options_of_moves)
-        pygame.display.update()
+
 
     def reset(self):
         self.selected = None

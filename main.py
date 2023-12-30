@@ -58,10 +58,6 @@ def main():
                 game.ai_move(new_board)
             pygame.time.delay(500)
 
-        if game.winner() is not None:
-            print(game.winner())
-            game_is_on = False
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_is_on = False
@@ -72,6 +68,19 @@ def main():
                 game.select(row, col)
 
         game.update()
+
+        if game.winner() is not None:
+            print(game.winner())
+
+            if game.winner() == "GREEN WON":
+                green = pygame.image.load('green_won.png').convert()
+                screen.blit(green, (100, 100))
+
+            elif game.winner() == "RED WON":
+                red = pygame.image.load('red_won.png').convert()
+                screen.blit(red, (100, 100))
+
+        pygame.display.update()
 
     pygame.quit()
 

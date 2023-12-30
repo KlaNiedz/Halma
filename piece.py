@@ -1,5 +1,5 @@
 import pygame
-from constants import GREY, SQUARE_SIZE
+from constants import GREEN, RED, GREY, SQUARE_SIZE
 
 
 class Piece:
@@ -32,4 +32,7 @@ class Piece:
         self.calculate_pos()
 
     def __repr__(self):
-        return str(self.color)
+        if self.color == GREEN:
+            return str("GREEN")
+        elif self.color == RED:
+            return str("RED")

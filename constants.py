@@ -1,5 +1,5 @@
 WIDTH, HEIGHT = 800, 800
-ROWS, COLS = 10, 10
+ROWS, COLS = 8, 8
 SQUARE_SIZE = WIDTH//COLS
 # 3 possible amount of pieces: 6, 13, 19
 PIECES = 6

@@ -33,6 +33,7 @@ def test_check_winner():
 
     halma_board.check_winner()
     assert halma_board.winner_red == 6
+    assert halma_board.check_winner() == "RED WON"
 
 
 def test_get_moves():
@@ -45,12 +46,34 @@ def test_get_moves():
     result = board_obj._left(2, 0, -1, GREEN, 0, skipped=[])
     assert result == {(0, 2): []}
 
-def test_get_destination_zone():
-    pass
 
 def test_calculate_distance():
     board = Board()
     piece = Piece(0, 5, GREEN)
     desination_zone = [(4, 0), (4, 1)]
     assert board.calculate_distance(piece, desination_zone) == 8
-    
+
+
+def test_move():
+    board = Board()
+    piece = Piece(1, 0, GREEN)
+    board.move(piece, 2, 0)
+    assert piece.row == 2
+    assert piece.col == 0
+    assert piece.x == 50
+    assert piece.y == 250
+
+
+def test_get_piece():
+    board = Board()
+    piece = Piece(0, 6, GREEN)
+    assert board.get_piece(0, 6).color == piece.color
+    assert board.get_piece(0, 6).row == piece.row
+    assert board.get_piece(0, 6).col == piece.col
+
+
+def test_get_options_of_move():
+    board = Board()
+    piece = Piece(6, 1, RED)
+    assert board.get_options_of_move(piece) == {(5, 2): [], (5, 1): [], (6, 2): []}
+

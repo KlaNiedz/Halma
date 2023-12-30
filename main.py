@@ -48,13 +48,15 @@ def main():
                 game.ai_move(new_board)
 
         if MODE == "COMPvsCOMP":
+
             if game.turn == GREEN:
-                value, new_board = minimax(game.get_board(), 2, float('-inf'), float('inf'), GREEN, game)
+                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), GREEN, game)
                 game.ai_move(new_board)
 
             elif game.turn == RED:
-                value, new_board = minimax(game.get_board(), 2, float('-inf'), float('inf'), RED, game)
+                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), RED, game)
                 game.ai_move(new_board)
+            pygame.time.delay(500)
 
         if game.winner() is not None:
             print(game.winner())

@@ -50,9 +50,10 @@ class Game:
         piece can only move to square which has no pieces
         """
         piece = self.board.get_piece(row, col)
-        if self.selected and piece == 0 and (row, col) in self.options_of_moves:
-            self.board.move(self.selected, row, col)
-            self.change_turn()
+        if self.selected and piece == 0:
+            if (row, col) in self.options_of_moves:
+                self.board.move(self.selected, row, col)
+                self.change_turn()
         else:
             return False
         return True
@@ -76,4 +77,3 @@ class Game:
     def ai_move(self, board):
         self.board = board
         self.change_turn()
-

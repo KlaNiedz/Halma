@@ -89,14 +89,11 @@ class Board:
         red_turn = -(self.winner_green - self.winner_red)
         if MODE == 'COMPvsCOMP':
             if current_turn == GREEN:
-                print(green_turn + score)
                 return green_turn + score
             else:
-                print(red_turn - score)
                 return red_turn - score
 
         elif MODE == 'COMPvsPLAYER':
-            # print(green_turn + score)
             return green_turn + score
 
     def get_destination_zone(self):
@@ -146,7 +143,6 @@ class Board:
         for dest_row, dest_col in destination_zone:
             distance = abs(piece.row - dest_row) + abs(piece.col - dest_col)
             min_distance = min(min_distance, distance)
-            # print(min_distance)
 
         return min_distance
 

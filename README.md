@@ -1,20 +1,6 @@
 # HalmaGame
 
 
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab-stud.elka.pw.edu.pl/kniedzia/halmagame/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-
 ## Name
 Halma Game
 
@@ -28,11 +14,27 @@ ENG - https://bonaludo.com/2018/08/17/halma-the-beauty-of-simplicity/
 I decided to consider 3 options of number of pieces and every imgaginable size of board. User can change detalis in constants.py. Every parameter is listed and change there will influence whole project without breaking it.
 In order to improve testing I added option of play with 6 pieces per player. This is not accroding to Halma rules, but it significantly decrease gameplay time.
 
+All tests are based on constants:
+    WIDTH, HEIGHT = 800, 800
+    ROWS, COLS = 8, 8
+    SQUARE_SIZE = WIDTH//COLS
+    PIECES = 6
+    BROWN = (188, 170, 164)
+    WHITE = (255, 255, 255)
+    RED = (255, 0, 0)
+    GREEN = (0, 204, 0)
+    GREY = (128, 128, 128)
+
+
 
 ## Instruction manual
 In order to choose game mode, number of pieces, colors and size of the board, go to constants.py change values of the parametrs. Attention! The number of pieces can only be 6, 13 or 19. In case of other parameters you can choose size of board between 6 and 16 while playing with 6 pieces and size board between 8 and 16 while playing with 13 or 19 pieces.
 However, if you are playing with 6 pieces, I recommend choosing a board with a maximum of 10 by 10.
 Also, as rules of the game says, while playing with 19 pieces it is better to choose board 16x16.
+
+OPTION TO SEE MOVES OF COMPUTER - In algorithm.py there is an option to show possible moves for every piece. It is turned off,
+however if you want to see it uncomment "draw_moves()" function,  83 line in algorithm.py and "import pygame" on the second line of the file.
+
 
 ## Construction
 
@@ -71,6 +73,6 @@ Klaudia Niedziałkowska
 
 
 ## Project status
-Game mode 'COMPUTERvsCOMPUTER' doesn't work good.
+Minimax algorithm works good only on depth 1. However according to foundation of minimax the bigger depth the better game of computer.
 
-Line 263 can't be shortened
+Lines which are too long can't be shortened as it would break the code.

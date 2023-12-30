@@ -1,5 +1,5 @@
 from copy import deepcopy
-import pygame
+# import pygame
 from constants import RED, GREEN
 
 
@@ -11,17 +11,12 @@ def minimax(position, depth, alpha, beta, max_player, game):
     minimax - give the best possible move for particular gamer
     """
     if depth == 0 or position.check_winner() is not None:
-        if max_player:
-            return position.evaluate(game.turn), position
-        else:
-            return position.evaluate(game.turn), position
-        # else:
-        #     return position.evaluate(game.turn), position
+        return position.evaluate(game.turn), position
 
     if max_player:
         maxEval = float('-inf')
         best_move = None
-        for move in get_all_moves(position, GREEN, game):
+        for move in get_all_moves(position, max_player, game):
             evaluation = minimax(move, depth-1, alpha, beta, False, game)[0]
             maxEval = max(maxEval, evaluation)
 
@@ -34,18 +29,31 @@ def minimax(position, depth, alpha, beta, max_player, game):
         return maxEval, best_move
 
     else:
+
         minEval = float('inf')
         best_move = None
-        for move in get_all_moves(position, RED, game):
-            evaluation = minimax(move, depth-1, alpha, beta, True, game)[0]
-            minEval = min(minEval, evaluation)
+        if max_player == GREEN:
+            for move in get_all_moves(position, RED, game):
+                evaluation = minimax(move, depth-1, alpha, beta, True, game)[0]
+                minEval = min(minEval, evaluation)
 
-            if minEval == evaluation:
-                best_move = move
-            beta = min(beta, evaluation)
-            if beta <= alpha:
-                break
-        print(best_move)
+                if minEval == evaluation:
+                    best_move = move
+                beta = min(beta, evaluation)
+                if beta <= alpha:
+                    break
+        else:
+            for move in get_all_moves(position, GREEN, game):
+                evaluation = minimax(move, depth-1, alpha, beta, True, game)[0]
+                minEval = min(minEval, evaluation)
+
+                if minEval == evaluation:
+                    best_move = move
+                beta = min(beta, evaluation)
+                if beta <= alpha:
+                    break
+
+        print(f"{best_move} dla {max_player}")
         return minEval, best_move
 
 
@@ -67,7 +75,7 @@ def get_all_moves(board, color, game):
         valid_moves = board.get_options_of_move(piece)
         # (row, col): [pieces]
         for move, skip in valid_moves.items():
-            draw_moves(game, board, piece)
+            # draw_moves(game, board, piece)
             temp_board = deepcopy(board)
             temp_piece = temp_board.get_piece(piece.row, piece.col)
             new_board = simulate_move(temp_piece, move, temp_board, game)
@@ -75,13 +83,13 @@ def get_all_moves(board, color, game):
     return moves
 
 
-def draw_moves(game, board, piece):
-    valid_moves = board.get_options_of_move(piece)
-    board.draw(game.screen)
-    pygame.draw.circle(game.screen, (0, 255, 0), (piece.x, piece.y), 50, 5)
-    game.draw_valid_moves(valid_moves.keys())
-    pygame.display.update()
-    pygame.time.delay(50)
+# def draw_moves(game, board, piece):
+#     valid_moves = board.get_options_of_move(piece)
+#     board.draw(game.screen)
+#     pygame.draw.circle(game.screen, (0, 255, 0), (piece.x, piece.y), 50, 5)
+#     game.draw_valid_moves(valid_moves.keys())
+#     pygame.display.update()
+#     pygame.time.delay(50)
 
 
 

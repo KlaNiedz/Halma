@@ -1,7 +1,7 @@
 
 import pygame
-from constants import PIECES, ROWS, COLS, SQUARE_SIZE, WIDTH, HEIGHT, MODE
-from constants import GREEN, RED
+from constants import PIECES, ROWS, COLS, SQUARE_SIZE, WIDTH, HEIGHT, MODE, Color
+
 from game import Game
 from algorithm import minimax
 
@@ -43,18 +43,18 @@ def main():
         clock.tick(FPS)
 
         if MODE == 'COMPvsPLAYER':
-            if game.turn == GREEN:
-                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), GREEN, game)
+            if game.turn == 'GREEN':
+                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), Color.GREEN.name, game)
                 game.ai_move(new_board)
 
         if MODE == "COMPvsCOMP":
 
-            if game.turn == GREEN:
-                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), GREEN, game)
+            if game.turn == 'GREEN':
+                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), Color.GREEN.name, game)
                 game.ai_move(new_board)
 
-            elif game.turn == RED:
-                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), RED, game)
+            elif game.turn == 'RED':
+                value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), Color.RED.name, game)
                 game.ai_move(new_board)
             pygame.time.delay(500)
 
@@ -70,7 +70,6 @@ def main():
         game.update()
 
         if game.winner() is not None:
-            print(game.winner())
 
             if game.winner() == "GREEN WON":
                 green = pygame.image.load('green_won.png').convert()

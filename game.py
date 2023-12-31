@@ -1,6 +1,6 @@
 import pygame
 from board import Board
-from constants import GREY, RED, GREEN, SQUARE_SIZE
+from constants import GREY, SQUARE_SIZE
 
 
 class Game:
@@ -8,8 +8,7 @@ class Game:
         self.screen = screen
         self.selected = None
         self.board = Board()
-        self.turn = RED
-        self.count_turns = 0
+        self.turn = "RED"
         self.options_of_moves = {}
 
     def winner(self):
@@ -19,11 +18,10 @@ class Game:
         self.board.draw(self.screen)
         self.draw_valid_moves(self.options_of_moves)
 
-
     def reset(self):
         self.selected = None
         self.board = Board()
-        self.turn = RED
+        self.turn = "RED"
         self.options_of_moves = {}
 
     def select(self, row, col):
@@ -65,11 +63,10 @@ class Game:
 
     def change_turn(self):
         self.options_of_moves = []
-        self.count_turns += 1
-        if self.turn == RED:
-            self.turn = GREEN
+        if self.turn == "RED":
+            self.turn = "GREEN"
         else:
-            self.turn = RED
+            self.turn = "RED"
 
     def get_board(self):
         return self.board

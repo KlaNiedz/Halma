@@ -1,5 +1,5 @@
 from board import Board
-from constants import RED, GREEN, ROWS, COLS, PIECES
+from constants import ROWS, COLS, PIECES
 from piece import Piece
 
 
@@ -19,6 +19,7 @@ def test_create_board_table():
     board = Board()
     piece = board.board[0][COLS-1]
     assert isinstance(piece, Piece)
+    assert piece.color == "GREEN"
 
 
 def test_check_winner():

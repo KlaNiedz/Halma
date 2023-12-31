@@ -1,6 +1,6 @@
 import pygame
 from constants import MODE, PIECES, SQUARE_SIZE, ROWS, COLS
-from constants import BROWN, WHITE, RED, GREEN
+from constants import BROWN, WHITE, Color
 from piece import Piece
 
 
@@ -38,12 +38,12 @@ class Board:
                     max_piec_in_row = PIECES//2
                     if col >= COLS - max_piec_in_row and row < max_piec_in_row:
                         if col >= COLS - max_piec_in_row + row:
-                            self.board[row].append(Piece(row, col, GREEN))
+                            self.board[row].append(Piece(row, col, Color.GREEN.name))
                         else:
                             self.board[row].append(0)
                     elif row >= ROWS-max_piec_in_row and col < max_piec_in_row:
                         if row >= ROWS - max_piec_in_row + col:
-                            self.board[row].append(Piece(row, col, RED))
+                            self.board[row].append(Piece(row, col, Color.RED.name))
                         else:
                             self.board[row].append(0)
                     else:
@@ -53,9 +53,9 @@ class Board:
                     if col >= COLS - constant - 1:
                         if row <= PIECES // 4:
                             if row == 0:
-                                self.board[row].append(Piece(row, col, GREEN))
+                                self.board[row].append(Piece(row, col, Color.GREEN.name))
                             elif col >= COLS - 2 - constant + row:
-                                self.board[row].append(Piece(row, col, GREEN))
+                                self.board[row].append(Piece(row, col, Color.GREEN.name))
                             else:
                                 self.board[row].append(0)
                         else:
@@ -63,9 +63,9 @@ class Board:
                     elif row >= ROWS - constant - 1:
                         if col <= constant:
                             if col == 0:
-                                self.board[row].append(Piece(row, col, RED))
+                                self.board[row].append(Piece(row, col, Color.RED.name))
                             elif row >= ROWS - 2 - constant + col:
-                                self.board[row].append(Piece(row, col, RED))
+                                self.board[row].append(Piece(row, col, Color.RED.name))
                             else:
                                 self.board[row].append(0)
                         else:
@@ -82,13 +82,13 @@ class Board:
         The higher result of the function the better move for the green,
         the smaller result of the function the better move for the red
         """
-        green_score = self.calculate_score(GREEN)
-        red_score = self.calculate_score(RED)
+        green_score = self.calculate_score("GREEN")
+        red_score = self.calculate_score("RED")
         score = red_score - green_score
         green_turn = self.winner_green - self.winner_red
         red_turn = -(self.winner_green - self.winner_red)
         if MODE == 'COMPvsCOMP':
-            if current_turn == GREEN:
+            if current_turn == "GREEN":
                 return green_turn + score
             else:
                 return red_turn - score
@@ -153,10 +153,10 @@ class Board:
         total_distance = 0
         green_des_pos, red_des_pos = self.get_destination_zone()
 
-        if color == GREEN:
+        if color == "GREEN":
             for piece in self.get_all_pieces(color):
                 total_distance += self.calculate_distance(piece, green_des_pos)
-        elif color == RED:
+        elif color == "RED":
             for piece in self.get_all_pieces(color):
                 total_distance += self.calculate_distance(piece, red_des_pos)
 
@@ -190,7 +190,7 @@ class Board:
                             current_piece = self.board[row][col]
 
                             if isinstance(current_piece, Piece):
-                                if current_piece.color == RED:
+                                if current_piece.color == Color.RED.name:
                                     red_winners.add(current_piece)
 
                     elif row >= max_piec_in_row and col < max_piec_in_row:
@@ -198,7 +198,7 @@ class Board:
                             current_piece = self.board[row][col]
 
                             if isinstance(current_piece, Piece):
-                                if current_piece.color == GREEN:
+                                if current_piece.color == Color.GREEN.name:
                                     green_winners.add(current_piece)
 
                 elif PIECES == 13 or PIECES == 19:
@@ -207,12 +207,12 @@ class Board:
                             if row == 0:
                                 current_piece = self.board[row][col]
                                 if isinstance(current_piece, Piece):
-                                    if current_piece.color == RED:
+                                    if current_piece.color == Color.RED.name:
                                         red_winners.add(current_piece)
                             elif col >= COLS - 2 - constant + row:
                                 current_piece = self.board[row][col]
                                 if isinstance(current_piece, Piece):
-                                    if current_piece.color == RED:
+                                    if current_piece.color == Color.RED.name:
                                         red_winners.add(current_piece)
 
                     elif row >= ROWS - constant - 1:
@@ -220,13 +220,13 @@ class Board:
                             if col == 0:
                                 current_piece = self.board[row][col]
                                 if isinstance(current_piece, Piece):
-                                    if current_piece.color == GREEN:
+                                    if current_piece.color == Color.GREEN.name:
                                         green_winners.add(current_piece)
 
                             elif row >= ROWS - 2 - constant + col:
                                 current_piece = self.board[row][col]
                                 if isinstance(current_piece, Piece):
-                                    if current_piece.color == GREEN:
+                                    if current_piece.color == Color.GREEN.name:
                                         green_winners.add(current_piece)
 
         self.winner_green = len(green_winners)  # Count unique green winners

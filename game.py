@@ -62,7 +62,7 @@ class Game:
             pygame.draw.circle(self.screen, GREY, (col * SQUARE_SIZE + SQUARE_SIZE//2, row * SQUARE_SIZE + SQUARE_SIZE//2), 15)
 
     def change_turn(self):
-        self.options_of_moves = []
+        self.options_of_moves = {}
         if self.turn == "RED":
             self.turn = "GREEN"
         else:

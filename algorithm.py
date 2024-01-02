@@ -11,15 +11,16 @@ def minimax(position, depth, alpha, beta, max_player, game):
     minimax - give the best possible move for particular gamer
     """
     if depth == 0 or position.check_winner() is not None:
+
         return position.evaluate(game.turn), position
 
     if max_player:
+
         maxEval = float('-inf')
         best_move = None
         for move in get_all_moves(position, max_player, game):
             evaluation = minimax(move, depth-1, alpha, beta, False, game)[0]
             maxEval = max(maxEval, evaluation)
-
             if maxEval == evaluation:
                 best_move = move
             alpha = max(alpha, evaluation)
@@ -32,8 +33,10 @@ def minimax(position, depth, alpha, beta, max_player, game):
 
         minEval = float('inf')
         best_move = None
-        if max_player == 'GREEN':
+        if game.turn == 'GREEN':
+
             for move in get_all_moves(position, Color.RED.name, game):
+
                 evaluation = minimax(move, depth-1, alpha, beta, True, game)[0]
                 minEval = min(minEval, evaluation)
 
@@ -42,7 +45,9 @@ def minimax(position, depth, alpha, beta, max_player, game):
                 beta = min(beta, evaluation)
                 if beta <= alpha:
                     break
+
         else:
+
             for move in get_all_moves(position, Color.GREEN.name, game):
                 evaluation = minimax(move, depth-1, alpha, beta, True, game)[0]
                 minEval = min(minEval, evaluation)
@@ -53,7 +58,6 @@ def minimax(position, depth, alpha, beta, max_player, game):
                 if beta <= alpha:
                     break
 
-        print(f"{best_move} dla {max_player}")
         return minEval, best_move
 
 
@@ -90,7 +94,3 @@ def get_all_moves(board, color, game):
 #     game.draw_valid_moves(valid_moves.keys())
 #     pygame.display.update()
 #     pygame.time.delay(50)
-
-
-
-

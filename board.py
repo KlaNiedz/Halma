@@ -82,11 +82,11 @@ class Board:
         The higher result of the function the better move for the green,
         the smaller result of the function the better move for the red
         """
-        green_score = self.calculate_score("GREEN")
-        red_score = self.calculate_score("RED")
+        green_score = 0.5*self.calculate_score("GREEN")
+        red_score = 0.5*self.calculate_score("RED")
         score = red_score - green_score
         green_turn = self.winner_green - self.winner_red
-        red_turn = -(self.winner_green - self.winner_red)
+        red_turn = self.winner_red - self.winner_green
         if MODE == 'COMPvsCOMP':
             if current_turn == "GREEN":
                 return green_turn + score

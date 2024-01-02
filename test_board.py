@@ -1,5 +1,5 @@
 from board import Board
-from constants import ROWS, COLS, PIECES
+from constants import ROWS, COLS, PIECES, Color
 from piece import Piece
 
 
@@ -30,7 +30,7 @@ def test_check_winner():
             max_piec_in_row = PIECES//2
             if col >= COLS - max_piec_in_row and row < max_piec_in_row:
                 if col >= COLS - max_piec_in_row + row:
-                    board.board[row][col] = Piece(row, col, RED)
+                    board.board[row][col] = Piece(row, col, Color.RED.name)
 
     board.check_winner()
     assert board.winner_red == 6
@@ -44,20 +44,20 @@ def test_get_moves():
     # # 3 possible amount of pieces: 6, 13, 19
     # PIECES = 6
     board = Board()
-    result = board._left(2, 0, -1, GREEN, 0, skipped=[])
+    result = board._left(2, 0, -1, Color.GREEN.name, 0, skipped=[])
     assert result == {(0, 2): []}
 
 
 def test_calculate_distance():
     board = Board()
-    piece = Piece(0, 5, GREEN)
+    piece = Piece(0, 5, Color.GREEN.name)
     desination_zone = [(4, 0), (4, 1)]
     assert board.calculate_distance(piece, desination_zone) == 8
 
 
 def test_move():
     board = Board()
-    piece = Piece(1, 0, GREEN)
+    piece = Piece(1, 0, Color.GREEN.name)
     board.move(piece, 2, 0)
     assert piece.row == 2
     assert piece.col == 0
@@ -67,7 +67,7 @@ def test_move():
 
 def test_get_piece():
     board = Board()
-    piece = Piece(0, 6, GREEN)
+    piece = Piece(0, 6, Color.GREEN.name)
     assert board.get_piece(0, 6).color == piece.color
     assert board.get_piece(0, 6).row == piece.row
     assert board.get_piece(0, 6).col == piece.col
@@ -75,6 +75,5 @@ def test_get_piece():
 
 def test_get_options_of_move():
     board = Board()
-    piece = Piece(6, 1, RED)
+    piece = Piece(6, 1, Color.RED.name)
     assert board.get_options_of_move(piece) == {(5, 2): [], (5, 1): [], (6, 2): []}
-

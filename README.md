@@ -73,6 +73,6 @@ Klaudia Niedziałkowska
 ## Project status
 Minimax algorithm works good only on depth 1. However according to foundation of minimax the bigger depth the better game of computer.
 In case of game mode compvscomp there is a problem while finishing the game. Pieces seem to be in loop.
-I tried my best to fix it., but I failed.
+I tried my best to fix it, but I failed.
 
 Lines which are too long can't be shortened as it would break the code.

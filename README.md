@@ -62,6 +62,7 @@ Game - handles game logic
 
 ## Visuals
 [An example of a game player vs player](https://youtu.be/hypF6F5U-0w)
+
 [An example of a game computer vs player](https://youtu.be/97xK1LM-6Z0)
 
 

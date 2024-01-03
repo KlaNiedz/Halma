@@ -49,16 +49,14 @@ def main():
 
         if MODE == "COMPvsCOMP":
             if game.turn == 'GREEN':
-                print("green maximazing")
                 value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), Color.GREEN.name, game)
                 game.ai_move(new_board)
 
             elif game.turn == 'RED':
-                print("red maximazing")
                 value, new_board = minimax(game.get_board(), 1, float('-inf'), float('inf'), Color.RED.name, game)
                 game.ai_move(new_board)
 
-            pygame.time.delay(500)
+            pygame.time.delay(100)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
